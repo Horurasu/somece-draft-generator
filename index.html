@@ -1,0 +1,528 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SOMECE Draft Generator — Archive</title>
+  <meta name="description" content="Historical archive and supplementary documentation of the instructional design of the SOMECE Draft Generator.">
+  <meta property="og:title" content="SOMECE Draft Generator">
+  <meta property="og:description" content="Historical archive and supplementary documentation of the instructional design.">
+  <meta property="og:image" content="https://horurasu.github.io/somece-draft-generator/images/fig1_home_screen.png">
+  <meta name="theme-color" content="#f7f4ee">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    /* ───────── Tokens: washi paper & sumi ink ───────── */
+    :root {
+      --paper:    #f7f4ee;
+      --surface:  #fbf9f5;
+      --ink:      #1f1f1d;
+      --ink-soft: #4a4844;
+      --muted:    #8a867e;
+      --hairline: #dcd6ca;
+      --indigo:   #264f6e;   /* ai-iro */
+      --teal:     #3f7f7d;   /* echoes the tool's UI */
+      --vermilion:#b8432f;   /* shu: only for the seal */
+      --notice-bg:#f8efd4;   /* pale yellow */
+      --notice-bd:#d9b860;
+      --gray-bg:  #efede8;
+
+      --serif: "Shippori Mincho", "Hiragino Mincho ProN", Georgia, serif;
+      --sans:  system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+
+      --col: 900px;
+      --gutter: 24px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font: 400 16.5px/1.85 var(--sans);
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+    img { max-width: 100%; height: auto; display: block; }
+    a { color: var(--indigo); text-decoration: none; }
+    a:hover { text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; }
+    ::selection { background: rgba(38,79,110,.15); }
+
+    .wrap { max-width: var(--col); margin: 0 auto; padding: 0 var(--gutter); }
+
+    /* ───────── Header ───────── */
+    .hero {
+      position: relative;
+      padding: 112px 0 64px;
+      text-align: center;
+    }
+    .hero::before {               /* a single vertical line */
+      content: "";
+      position: absolute;
+      top: 0; left: 50%;
+      width: 1px; height: 72px;
+      background: linear-gradient(var(--hairline), transparent);
+    }
+    .eyebrow {
+      margin: 0 0 32px;
+      font-size: 11.5px;
+      letter-spacing: .32em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .title {
+      margin: 0;
+      font-family: var(--serif);
+      font-weight: 500;
+      font-size: clamp(32px, 6vw, 52px);
+      line-height: 1.25;
+      letter-spacing: .04em;
+    }
+    .seal {
+      display: inline-block;
+      width: .42em; height: .42em;
+      margin-right: .35em;
+      vertical-align: .32em;
+      background: var(--vermilion);
+      border-radius: 2px;
+      box-shadow: inset 0 0 0 2px var(--vermilion), inset 0 0 0 3px rgba(255,255,255,.35);
+    }
+    .subtitle {
+      margin: 20px auto 0;
+      max-width: 32em;
+      font-family: var(--serif);
+      font-size: clamp(16px, 2.4vw, 19px);
+      line-height: 1.8;
+      color: var(--ink-soft);
+    }
+
+    .authors {
+      list-style: none;
+      display: flex; flex-wrap: wrap; justify-content: center;
+      gap: 6px 32px;
+      margin: 40px 0 0; padding: 0;
+      font-size: 15.5px;
+    }
+    .authors a { color: var(--ink); border-bottom: 1px solid var(--hairline); padding-bottom: 1px; transition: color .3s, border-color .3s; }
+    .authors a:hover { color: var(--indigo); border-color: var(--indigo); text-decoration: none; }
+    .authors sup, .affiliations sup { margin-left: 2px; font-size: .7em; color: var(--muted); }
+    .affiliations {
+      list-style: none;
+      margin: 14px 0 0; padding: 0;
+      font-size: 13.5px;
+      line-height: 1.9;
+      color: var(--muted);
+    }
+    .article-title {
+      margin: 32px auto 0;
+      max-width: 36em;
+      font-size: 13.5px;
+      line-height: 1.8;
+      color: var(--muted);
+    }
+    .article-title cite { font-style: normal; color: var(--ink-soft); }
+
+    /* ───────── Notice & reference article ───────── */
+    .notice {
+      margin: 0 0 24px;
+      padding: 22px 26px;
+      background: var(--notice-bg);
+      border: 1px solid var(--notice-bd);
+      border-left-width: 3px;
+      border-radius: 3px;
+      font-size: 15px;
+      line-height: 1.85;
+      color: var(--ink);
+    }
+    .notice p { margin: 0; }
+    .notice strong { font-weight: 600; }
+    .notice em { font-style: normal; font-family: ui-monospace, Menlo, Consolas, monospace; font-size: .92em; }
+
+    .reference {
+      padding: 22px 26px;
+      background: var(--gray-bg);
+      border: 1px dashed var(--muted);
+      border-radius: 3px;
+    }
+    .reference h2 {
+      margin: 0 0 6px;
+      font-family: var(--serif);
+      font-weight: 500;
+      font-size: 18px;
+      letter-spacing: .04em;
+    }
+    .reference p { margin: 0; font-size: 15px; color: var(--ink-soft); }
+    .reference cite { font-style: normal; color: var(--ink); }
+    .pending {
+      display: inline-block;
+      margin-right: .6em;
+      padding: 0 10px;
+      border: 1px solid var(--hairline);
+      border-radius: 999px;
+      background: var(--surface);
+      font-size: 11px;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      vertical-align: 2px;
+    }
+
+    /* ───────── Sections ───────── */
+    .section { padding: 96px 0 0; }
+    .section-label {
+      display: flex; align-items: baseline; gap: 18px;
+      margin: 0 0 36px;
+      font-family: var(--serif);
+      font-weight: 500;
+      font-size: 24px;
+      letter-spacing: .06em;
+    }
+    .section-label .no {
+      font-family: var(--sans);
+      font-size: 11.5px;
+      letter-spacing: .3em;
+      color: var(--muted);
+    }
+    .section-label::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: var(--hairline);
+      transform: translateY(-6px);
+    }
+    .prose { max-width: 720px; }
+    .prose p { margin: 0 0 1.4em; color: var(--ink-soft); }
+    .prose p:last-child { margin-bottom: 0; }
+    .prose em { font-style: normal; color: var(--ink); border-bottom: 1px solid var(--hairline); }
+    .lead {
+      font-family: var(--serif);
+      font-size: 20px;
+      line-height: 1.8;
+      color: var(--ink) !important;
+    }
+
+    .keywords {
+      display: flex; flex-wrap: wrap; gap: 8px;
+      margin: 28px 0 0; padding: 0;
+      list-style: none;
+    }
+    .keywords li {
+      padding: 2px 12px;
+      border: 1px solid var(--hairline);
+      border-radius: 999px;
+      font-size: 12.5px;
+      color: var(--ink-soft);
+    }
+
+    /* Workflow: four quiet stations */
+    .flow {
+      list-style: none;
+      counter-reset: f;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      margin: 48px 0 0; padding: 0;
+      border-top: 1px solid var(--hairline);
+    }
+    .flow li {
+      counter-increment: f;
+      position: relative;
+      padding: 24px 20px 0 0;
+      font-size: 14px;
+      line-height: 1.75;
+      color: var(--ink-soft);
+    }
+    .flow li::before {
+      content: "";
+      position: absolute; top: -4px; left: 0;
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--paper);
+      border: 1px solid var(--teal);
+    }
+    .flow li.is-author::before { background: var(--teal); }
+    .flow strong {
+      display: block;
+      margin-bottom: 4px;
+      font-family: var(--serif);
+      font-weight: 500;
+      font-size: 16px;
+      color: var(--ink);
+    }
+    .flow strong::before {
+      content: counter(f, decimal-leading-zero) " ";
+      font-family: var(--sans);
+      font-size: 11px;
+      letter-spacing: .2em;
+      color: var(--muted);
+    }
+
+    /* ───────── Figures ───────── */
+    .figures { display: grid; gap: 72px; }
+    .figure { margin: 0; }
+    .figure img {
+      width: 100%;
+      background: var(--surface);
+      border: 1px solid var(--hairline);
+      border-radius: 3px;
+      cursor: zoom-in;
+      transition: box-shadow .4s;
+    }
+    .figure img:hover { box-shadow: 0 18px 40px -24px rgba(31,31,29,.35); }
+    .figure.narrow img { max-width: 620px; margin: 0 auto; }
+    figcaption {
+      max-width: 720px;
+      margin: 18px auto 0;
+      font-size: 14px;
+      line-height: 1.8;
+      color: var(--ink-soft);
+    }
+    .fig-no {
+      margin-right: .6em;
+      font-family: var(--serif);
+      font-weight: 600;
+      color: var(--indigo);
+      letter-spacing: .04em;
+    }
+
+    /* ───────── Repository files ───────── */
+    .files { list-style: none; margin: 0; padding: 0; }
+    .files li {
+      display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 20px;
+      padding: 14px 0;
+      border-top: 1px solid var(--hairline);
+    }
+    .files li:last-child { border-bottom: 1px solid var(--hairline); }
+    .files a {
+      font-family: ui-monospace, Menlo, Consolas, monospace;
+      font-size: 14px;
+    }
+    .files span { font-size: 14px; color: var(--muted); }
+
+    /* ───────── Footer ───────── */
+    .footer {
+      margin-top: 120px;
+      padding: 44px 0 60px;
+      border-top: 1px solid var(--hairline);
+      text-align: center;
+      font-size: 13px;
+      line-height: 2;
+      letter-spacing: .04em;
+      color: var(--muted);
+    }
+    .footer p { margin: 14px 0 0; }
+    .seal.small { width: 10px; height: 10px; margin: 0; vertical-align: middle; }
+
+    /* ───────── Lightbox ───────── */
+    .lightbox {
+      position: fixed; inset: 0; z-index: 10;
+      display: grid; place-items: center;
+      padding: 40px;
+      background: rgba(247,244,238,.96);
+      cursor: zoom-out;
+      animation: fade .3s ease;
+    }
+    .lightbox[hidden] { display: none; }
+    .lightbox img { max-height: 88vh; width: auto; border: 1px solid var(--hairline); }
+    .lightbox-close {
+      position: absolute; top: 16px; right: 20px;
+      border: 0; background: none;
+      font: 300 32px/1 var(--sans);
+      color: var(--ink-soft);
+      cursor: pointer;
+    }
+
+    /* ───────── Quiet reveal ───────── */
+    .js .reveal { opacity: 0; transform: translateY(14px); transition: opacity 1s ease, transform 1s ease; }
+    .js .reveal.is-visible { opacity: 1; transform: none; }
+    @keyframes fade { from { opacity: 0; } }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .js .reveal { opacity: 1; transform: none; transition: none; }
+      .lightbox { animation: none; }
+    }
+
+    /* ───────── Small screens ───────── */
+    @media (max-width: 640px) {
+      :root { --gutter: 16px; }
+      body { font-size: 15.5px; }
+      .hero { padding: 88px 0 48px; }
+      .eyebrow { letter-spacing: .2em; }
+      .section { padding-top: 72px; }
+      .notice, .reference { padding: 18px; }
+      .authors { flex-direction: column; gap: 4px; }
+      .flow { grid-template-columns: 1fr; border-top: 0; border-left: 1px solid var(--hairline); }
+      .flow li { padding: 0 0 24px 24px; }
+      .flow li::before { top: 8px; left: -4px; }
+      .figures { gap: 56px; }
+      .lightbox { padding: 16px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ─────────────── Header ─────────────── -->
+  <header class="hero">
+    <div class="wrap">
+      <p class="eyebrow">Historical archive</p>
+      <h1 class="title"><span class="seal" aria-hidden="true"></span>SOMECE Draft Generator</h1>
+      <p class="subtitle">Historical archive and supplementary documentation of the instructional design</p>
+
+      <ul class="authors">
+        <li><a href="https://horurasu.github.io">Martín Joaquín Aguilar Muñoz</a><sup>1</sup></li>
+        <li><a href="https://scholar.google.com/citations?user=AP4my20AAAAJ&amp;hl=es">Christian Jonathan Angel Rueda</a><sup>2</sup></li>
+        <li><a href="https://scholar.google.com/citations?user=uTU5eewAAAAJ&amp;hl=es">Ricardo Rivera Carrillo</a><sup>1</sup></li>
+      </ul>
+      <ul class="affiliations">
+        <li><sup>1</sup> Universidad Marista de Querétaro, Querétaro, México</li>
+        <li><sup>2</sup> Universidad Politécnica de Santa Rosa Jáuregui, Querétaro, México</li>
+      </ul>
+
+      <p class="article-title">Supplementary material for <cite>&ldquo;AI as a Mirror: Designing for Judgment and Authorship in Academic Writing&rdquo;</cite></p>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- ─────────────── Notice + reference article ─────────────── -->
+    <section class="wrap">
+      <div class="notice" role="note">
+        <p><strong>Availability note:</strong> The SOMECE Draft Generator web application is no longer active or publicly available. This site serves solely as a historical archive and supplementary documentation of the instructional design analyzed in the article. It preserves the screenshots and reference materials so that readers can inspect the architecture of the artifact independently of the online tool. The address cited in the article, <em>appdemo.pod3.site</em>, is no longer in service.</p>
+      </div>
+
+      <div class="reference">
+        <h2>Reference article</h2>
+        <!-- TODO: once published, replace this paragraph with:
+             <p><a href="JXIV_URL">Article title — Jxiv preprint</a></p> -->
+        <p><span class="pending">Coming soon</span><cite>AI as a Mirror: Designing for Judgment and Authorship in Academic Writing.</cite> The link to the Jxiv preprint will be added after publication.</p>
+      </div>
+    </section>
+
+    <!-- ─────────────── 01 About ─────────────── -->
+    <section class="section reveal" id="about">
+      <div class="wrap">
+        <h2 class="section-label"><span class="no">01</span>About the project</h2>
+        <div class="prose">
+          <p class="lead">The SOMECE Draft Generator is an instructional design artifact that frames generative AI as a mirror rather than a typewriter.</p>
+          <p>The tool does not embed a language model, nor does it generate text directly. Instead, it structures the author&ndash;AI relationship through a <em>nine-step itinerary</em>, <em>mandatory prior writing</em>, <em>feedback-oriented prompts</em> (not substitution), and a <em>self-regulation checklist</em> with a level indicator.</p>
+          <p>Its aim is to preserve judgment, authorship, and critical thinking in academic writing: it shifts cognitive load toward secondary tasks such as rephrasing, tone, and organization, but never toward the construction of the central judgment.</p>
+          <p>This repository does not contain the working application, which is no longer available, but the design documentation that allows readers to verify the architecture of the artifact as analyzed in the article. The full analysis lives in the article itself.</p>
+        </div>
+
+        <ol class="flow" aria-label="How the tool was used">
+          <li class="is-author"><strong>Write</strong>The author drafts each section in their own words first.</li>
+          <li><strong>Compose</strong>The tool turns that text into a prompt asking for feedback, not a finished answer.</li>
+          <li><strong>Ask</strong>The author takes the prompt to the AI platform of their choice.</li>
+          <li class="is-author"><strong>Rework</strong>What comes back is treated as a draft, to be revised by the author.</li>
+        </ol>
+
+        <ul class="keywords" aria-label="Keywords">
+          <li>generative artificial intelligence</li>
+          <li>academic writing</li>
+          <li>AI mirror</li>
+          <li>cognitive offloading</li>
+          <li>instructional design</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ─────────────── 02 Figures ─────────────── -->
+    <section class="section reveal" id="figures">
+      <div class="wrap">
+        <h2 class="section-label"><span class="no">02</span>Figures</h2>
+        <div class="figures">
+          <figure class="figure">
+            <img src="images/fig1_home_screen.png" loading="lazy"
+                 alt="Home screen of the Draft Generator: nine-step progress indicator on the left and draft preview on the right.">
+            <figcaption><span class="fig-no">Figure 1.</span>Home screen of the Draft Generator. It establishes the tool&rsquo;s &lsquo;epistemic contract&rsquo;: AI supports the clarification of ideas; it is not a &lsquo;typewriter&rsquo; that replaces the author&rsquo;s judgment.</figcaption>
+          </figure>
+
+          <figure class="figure narrow">
+            <img src="images/fig2_nine_steps.png" loading="lazy"
+                 alt="Step 4 of the nine-step itinerary: develop your conceptual framework.">
+            <figcaption><span class="fig-no">Figure 2.</span>Nine-step itinerary. Writing is broken down into sequential phases that require the author&rsquo;s own prior production before any feedback prompt is generated.</figcaption>
+          </figure>
+
+          <figure class="figure narrow">
+            <img src="images/fig3_checklist.png" loading="lazy"
+                 alt="Self-regulation checklist with a visual level indicator.">
+            <figcaption><span class="fig-no">Figure 3.</span>Self-regulation checklist and level indicator. A metacognitive device that requires users to evaluate their own work before moving on, embodying the reflective stance at the core of the design.</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─────────────── 03 Files ─────────────── -->
+    <section class="section reveal" id="files">
+      <div class="wrap">
+        <h2 class="section-label"><span class="no">03</span>Repository files</h2>
+        <ul class="files">
+          <li><a href="README.md">README.md</a><span>Repository overview</span></li>
+          <li><a href="images/fig1_home_screen.png">images/fig1_home_screen.png</a><span>Figure 1: Home screen</span></li>
+          <li><a href="images/fig2_nine_steps.png">images/fig2_nine_steps.png</a><span>Figure 2: Nine-step process</span></li>
+          <li><a href="images/fig3_checklist.png">images/fig3_checklist.png</a><span>Figure 3: Self-regulation checklist</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ─────────────── 04 Citation ─────────────── -->
+    <section class="section reveal" id="citation">
+      <div class="wrap">
+        <h2 class="section-label"><span class="no">04</span>Citation</h2>
+        <!-- TODO: add the BibTeX once the Jxiv preprint is published -->
+        <div class="reference">
+          <p><span class="pending">Coming soon</span>Citation details will be available once the preprint is published.</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="wrap">
+      <span class="seal small" aria-hidden="true"></span>
+      <p>Martín Joaquín Aguilar Muñoz, Christian Jonathan Angel Rueda, Ricardo Rivera Carrillo · 2026</p>
+    </div>
+  </footer>
+
+  <div class="lightbox" hidden role="dialog" aria-modal="true" aria-label="Enlarged figure">
+    <button class="lightbox-close" type="button" aria-label="Close">&times;</button>
+    <img alt="">
+  </div>
+
+  <script>
+    document.documentElement.classList.add('js');
+
+    // Quiet reveal on scroll
+    const reveals = document.querySelectorAll('.reveal');
+    if ('IntersectionObserver' in window) {
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) { e.target.classList.add('is-visible'); io.unobserve(e.target); }
+        });
+      }, { threshold: 0.08 });
+      reveals.forEach((el) => io.observe(el));
+    } else {
+      reveals.forEach((el) => el.classList.add('is-visible'));
+    }
+
+    // Figure lightbox
+    const box = document.querySelector('.lightbox');
+    const boxImg = box.querySelector('img');
+    document.querySelectorAll('.figure img').forEach((img) => {
+      img.addEventListener('click', () => {
+        boxImg.src = img.src;
+        boxImg.alt = img.alt;
+        box.hidden = false;
+        box.querySelector('.lightbox-close').focus();
+      });
+    });
+    const closeBox = () => { box.hidden = true; };
+    box.addEventListener('click', closeBox);
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeBox(); });
+  </script>
+</body>
+</html>
